@@ -7,25 +7,54 @@
         <div class="col-md-4 col-md-offset-4">
             <form  action="{% url 'register' %}" method="post">
             <h2 class="text-center">注册帐号</h2>
+
+            {% csrf_token %}
             <div class="form-group">
-                <label for="id_username">用户名：</label>
-                <input type="text" name="username" class="form-control" id="id_username" required>
+                 {{ form.user_name.label_tag }}
+                 {{ form.user_name}}
+                 {{ form.user_name.errors }}
             </div>
             <div class="form-group">
-                <label for="id_password">密码：</label>
-                <input type="password" name="password" class="form-control" id="id_password" required>
+                 {{ form.user_password.label_tag }}
+                 {{ form.user_password}}
             </div>
             <div class="form-group">
-                <label for="id_repassword">确认密码：</label>
-                <input type="password" name="password" class="form-control" id="id_repassword" required>
+                <label for="id_re_password">确认密码：</label>
+                <input type="password" name="re_password" class="form-control" id="id_re_password" required>
+            </div>
+             {% if error_message %}
+                <div class="alert alert-warning">{{ error_message }}</div>
+            {% endif %}
+            <div class="form-group">
+                 {{ form.user_email.label_tag }}
+                 {{ form.user_email }}
+                 {{ form.user_email.errors }}
             </div>
             <div class="form-group">
-                <label for="id_password">邮箱：</label>
-                <input type="email" name="password" class="form-control" id="id_password" required>
+                 {{ form.sex.label_tag }}
+                 {{ form.sex }}
+                 {{ form.sex.error_message }}
+            </div>
+            <div class="form-group">
+                {{ form.captcha.label_tag }}
+                {{ form.captcha }}
+                {{ form.captcha.errors }}
             </div>
             <button type="reset" class="btn btn-default btn-lg pull-left">重置</button>
             <button type="submit" class="btn btn-primary btn-lg pull-right">注册</button>
             </form>
+        </div>
+    </div>
+    <br />
+
+    <!--END HOME PAGE SECTION-->
+    <div class="footer-sec" style="margin-top: 0px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 foo-inner">
+                    &copy; 2015 Yourdomain.com
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}

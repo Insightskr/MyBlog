@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from .models import Article, Victor
-from .forms import LoginForm
+from .forms import LoginForm, RegisterForm
 
 # Create your views here.
 
@@ -54,7 +54,24 @@ def logout(request):
 
 # 注册页面
 def register(request):
-    return render(request, 'blog/register.html')
+    if request.session.get('is_login', None):
+        return HttpResponseRedirect(reverse('index'))
+    if request.method == "POST":
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            password = form.cleaned_data['user_password']
+            re_password = request.POST['re_password']
+            if password == re_password:
+                request.session['is_login'] = True
+                request.session['user_name'] = form.cleaned_data['user_name']
+                form.save()
+                return HttpResponseRedirect(reverse('index'))
+            else:
+                error_message = '两次密码不一致'
+        return render(request, 'blog/register.html', locals())
+    # 如果不是登陆状态，或者不是POST请求，则建立一个空表单
+    form = RegisterForm()
+    return render(request, 'blog/register.html', locals())
 
 
 # 展示文章详细内容
