@@ -1,0 +1,71 @@
+﻿{% extends 'blog/base.html' %}
+{% load static %}
+{% load humanize %}
+{% block title %}宋科儒的个人博客{% endblock %}
+    <!--END INFO SECTION-->
+{% block context %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 ">
+                {% for article in articles %}
+                <div class="blog-post">
+                    <h2>{{article.title}}</h2>
+                    <h4>作者：{{article.author}}&nbsp;&nbsp;&nbsp;&nbsp; 发表日期：{{article.pub_date|naturalday}} </h4>
+                    <p>{{article.context|linebreaksbr|truncatechars:100}}
+                    </p>
+                    <a href="{% url 'detail' article.id %}" class="btn btn-default btn-lg ">了解详情 <i class="fa fa-angle-right"></i></a>
+                </div>
+                {% endfor %}
+                <br />
+                <nav>
+                    <ul class="pagination">
+                        <li>
+                            <a href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li>
+                            <a href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-3" style="padding-top: 30px;">
+				<div class="row">
+                <ul class="list-group">
+                    <li class="list-group-item"><strong>CATEGORIES</strong></li>
+                    <li class="list-group-item">Dapibus ac facilisis in</li>
+                    <li class="list-group-item">Morbi leo risus</li>
+                    <li class="list-group-item">Porta ac consectetur ac</li>
+                    <li class="list-group-item">Vestibulum at eros</li>
+                    <li class="list-group-item">Dapibus ac facilisis in</li>
+                    <li class="list-group-item">Morbi leo risus</li>
+                    <li class="list-group-item">Porta ac consectetur ac</li>
+                    <li class="list-group-item">Vestibulum at eros</li>
+                </ul>
+				</div>
+				<div class="row">
+				</div>
+            </div>
+        </div>
+    </div>
+
+    <!--END HOME PAGE SECTION-->
+    <div class="footer-sec" style="margin-top: 0px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 foo-inner">
+                    &copy; 2015 Yourdomain.com
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

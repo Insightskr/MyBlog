@@ -1,0 +1,119 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <!--[if IE]>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <![endif]-->
+    <title>{% block title %}{% endblock %}</title>
+    <!-- BOOTSTRAP CORE STYLE -->
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- CORE JQUERY -->
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <!-- BOOTSTRAP SCRIPTS -->
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- 重定义标题栏格式，使之可以渐变显示 -->
+    <style type="text/css">  
+        html, body {width:100%;height:100%;} /*非常重要的样式让背景图片100%适应整个屏幕*/  
+        .bg {display: table;width: 100%;height: 100%;padding: 100px 0;text-align: center;color: #fff;background-color: #000;background-size: cover;}  
+        .my-navbar {padding:10px 10px 10px 100px;transition: background 0.5s ease-in-out, padding 0.5s ease-in-out;}  
+        .my-navbar a{background:transparent !important;color:#fff !important}  
+        .my-navbar a:hover {color:#45bcf9 !important;background:transparent;outline:0}  
+        .my-navbar a {transition: color 0.5s ease-in-out;}/*-webkit-transition ;-moz-transition*/  
+        .top-nav {padding:0;background:#000;}  
+        button.navbar-toggle {background-color:#fbfbfb;}/*整个背景都是transparent透明的，会看不到，所以再次覆盖一下*/  
+        button.navbar-toggle > span.icon-bar {background-color:#dedede}  
+    </style>  
+    <!-- <link href="{% static 'blog/css/bootstrap.css' %}" rel="stylesheet" /> -->
+    <!-- FONT AWESOME ICON STYLE -->
+    <link href="{% static 'blog/css/font-awesome.css' %}" rel="stylesheet" />
+    <!-- CUSTOM STYLE CSS -->
+    <link href="{% static 'blog/css/style.css' %}" rel="stylesheet" />
+
+</head>
+<body>
+        <div id="header">
+        <div class="overlay">
+             <nav class="navbar navbar-fixed-top my-navbar" role="navigation">
+              <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#my-nav" aria-expanded="false">
+                    <span class="sr-only">切换导航条</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                  <a class="navbar-brand" href="#">Insight</a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="my-nav">
+                  <ul class="nav navbar-nav">
+                    <li class="active"><a href="{% url 'index' %}">主页</a></li>
+                  </ul>
+                  <ul class="nav navbar-nav navbar-right">
+                      {% if request.session.is_login %}
+                        <li><a href="##">当前在线:{{ request.session.user_name}}</a></li>
+                        <li><a href="{% url 'logout' %}">登出</a></li>
+                      {% else %}
+                        <li><a href="{% url 'login' %}">登录</a></li>
+                        <li><a href="{% url 'register' %}">注册</a></li>
+                      {% endif %}
+                  </ul>
+                </div><!-- /.navbar-collapse -->
+              </div><!-- /.container-fluid -->
+            </nav>
+             <div class="container">
+                <div class="row">
+                    <div class="col-md-8 " >
+                       <br />
+                       <br />
+                    </div>
+                    <div class="col-md-8  header-text-top " id="about">
+
+                         <h1>宋科儒的个人博客</h1>
+						这个博客是基于Bootstrap和Django制作的 <br />
+						这里的文章记录了我的编程过程中的笔记<br />
+                    </div>
+                    <div class="col-md-8 " >
+                    <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--END HEADER SECTION-->
+    <div class="info-sec">
+    <div class="container">
+            <div class="row">
+                <div class="col-md-9">
+                    可以通过我的邮箱 <strong>729885929</strong>@qq.com 联系我
+                </div>
+                <div class="col-md-3">
+                    {% if request.session.is_login %}
+                    <a href="{% url 'edit' 0 %}" class="btn btn-default ">新文章</a>
+                    {% endif %}
+                </div>
+            </div>
+    </div>
+    </div>
+    <!--END INFO SECTION-->
+    
+    {% block context %}{% endblock %}
+
+    <!-- END FOOTER SECTION -->
+
+    <!-- JAVASCRIPT FILES PLACED AT THE BOTTOM TO REDUCE THE LOADING TIME -->
+    <!-- 重定义标题栏格式，使之可以渐变显示 -->
+     <script>
+        $(window).scroll(function () {
+            if ($(".navbar").offset().top > 50) {$(".navbar-fixed-top").addClass("top-nav");
+            }else {$(".navbar-fixed-top").removeClass("top-nav");}
+        })</script>
+</body>
+</html>
