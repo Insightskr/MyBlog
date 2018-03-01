@@ -3,8 +3,16 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from .models import Article, Victor
 from .forms import LoginForm, RegisterForm
-
+import hashlib
 # Create your views here.
+
+
+# 哈希加密函数
+def hash_code(s, salt='MyBlog'):# 加点盐
+    h = hashlib.sha256()
+    s += salt
+    h.update(s.encode())  # update方法只接收bytes类型
+    return h.hexdigest()
 
 
 # 打开主页
@@ -26,7 +34,7 @@ def login(request):
             input_password = form.cleaned_data['user_password']
             try:
                 db_user = Victor.objects.get(user_name=input_name)
-                if db_user.user_password == input_password:
+                if db_user.user_password == hash_code(input_password):
                     # 设定登录状态
                     request.session['is_login'] = True
                     request.session['user_name'] = input_name
@@ -64,7 +72,9 @@ def register(request):
             if password == re_password:
                 request.session['is_login'] = True
                 request.session['user_name'] = form.cleaned_data['user_name']
-                form.save()
+                db_user = form.save()
+                db_user.user_password = hash_code(password)
+                db_user.save()
                 return HttpResponseRedirect(reverse('index'))
             else:
                 error_message = '两次密码不一致'
