@@ -19,21 +19,39 @@
                 <br />
                 <nav>
                     <ul class="pagination">
+                        {% if articles.has_previous %}
                         <li>
-                            <a href="#" aria-label="Previous">
+                            <a href="?page={{ articles.previous_page_number }}" aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li>
-                            <a href="#" aria-label="Next">
+                        {%  if articles.previous_page_number != 1 %}
+                        <li><a href="?page={{ articles.previous_page_number|add:'-1' }}">{{ articles.previous_page_number|add:'-1' }}</a></li>
+                        {% endif %}
+                        <li><a href="?page={{ articles.previous_page_number }}">{{ articles.previous_page_number }}</a></li>
+                        {% endif %}
+
+                        <li><span href="##" >{{ articles.number }}</span></li>
+
+                        {% if articles.has_next %}
+                        <li><a href="?page={{ articles.next_page_number }}">{{ articles.next_page_number }}</a></li>
+
+                        {% if articles.next_page_number == articles.paginator.num_pages %}
+
+                        {% elif articles.next_page_number|add:'1' == articles.paginator.num_pages %}
+                        <li><a href="?page={{ articles.next_page_number|add:'1' }}">{{ articles.next_page_number|add:'1' }}</a></li>
+
+                        {% else %}
+                        <li><a href="#">...</a></li>
+                        <li><a href="?page={{ articles.paginator.num_pages }}">{{ articles.paginator.num_pages }}</a></li>
+
+                        {% endif %}
+                         <li>
+                            <a href="?page={{ articles.next_page_number }}" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         </li>
+                        {% endif %}
                     </ul>
                 </nav>
             </div>

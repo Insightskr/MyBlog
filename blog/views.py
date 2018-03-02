@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import Article, Victor
 from .forms import LoginForm, RegisterForm
 import hashlib
@@ -17,7 +18,15 @@ def hash_code(s, salt='MyBlog'):# 加点盐
 
 # 打开主页
 def index(request):
-    articles = Article.objects.all()
+    article_lists = Article.objects.all()
+    paginator = Paginator(article_lists, 4)
+    page = request.GET.get('page', '1')
+    try:
+        articles = paginator.get_page(page)
+    except PageNotAnInteger:
+        articles = paginator.get_page(1)
+    except EmptyPage:
+        articles = paginator.get_page(paginator.num_pages)
     return render(request, 'blog/index.html', locals())
 
 
